@@ -25,6 +25,7 @@ int main(){
         break;
     case 2:
         solucionFin(busquedaProfundidad());
+        break;
     case 3:
         solucionFin(busquedaAnchuraControlEstados());
         break;

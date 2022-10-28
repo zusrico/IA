@@ -86,6 +86,7 @@ int busquedaAnchura(){
     while (!esVacia(Abiertos) && !objetivo && Actual->costeCamino != 15){
         Actual=(tNodo*) calloc(1,sizeof(tNodo));
         ExtraerPrimero(Abiertos,Actual, sizeof(tNodo));
+        visitados++;
         EliminarPrimero(&Abiertos);
         objetivo=testObjetivo(Actual->estado);
         if (!objetivo){
@@ -104,7 +105,7 @@ int busquedaAnchura(){
 }
 
 int busquedaAnchuraControlEstados(){
-    int objetivo=0, visitados=0;
+    int objetivo=0, visitados=0, repe = 0;
     tNodo *Actual=(tNodo*) calloc(1,sizeof(tNodo));
     tNodo *Inicial=nodoInicial();
     LISTA Abiertos= VACIA;
@@ -116,11 +117,14 @@ int busquedaAnchuraControlEstados(){
     while (!esVacia(Abiertos) && !objetivo){
         Actual=(tNodo*) calloc(1,sizeof(tNodo));
         ExtraerPrimero(Abiertos,Actual, sizeof(tNodo));
+        visitados++;
         EliminarPrimero(&Abiertos);
         if(!EstadosRepetidos(Cerradas, Actual)){
+            visitados++;
             objetivo=testObjetivo(Actual->estado);
             if (!objetivo){
                 Sucesores = expandir(Actual);
+                InsertarPrimero(&Cerradas, Actual, sizeof(tNodo));
                 Abiertos=Concatenar(Abiertos,Sucesores);
             }
         }
@@ -147,6 +151,7 @@ int busquedaProfundidad(){
     while (!esVacia(Abiertos) && !objetivo){
         Actual=(tNodo*) calloc(1,sizeof(tNodo));
         ExtraerPrimero(Abiertos,Actual, sizeof(tNodo));
+        visitados++;
         EliminarPrimero(&Abiertos);
         objetivo=testObjetivo(Actual->estado);
         if (!objetivo){
@@ -177,11 +182,13 @@ int busquedaProfundidadControlEstados(){
     while (!esVacia(Abiertos) && !objetivo){
         Actual=(tNodo*) calloc(1,sizeof(tNodo));
         ExtraerPrimero(Abiertos,Actual, sizeof(tNodo));
+        visitados++;
         EliminarPrimero(&Abiertos);
         if(!EstadosRepetidos(Cerradas, Actual)){
             objetivo=testObjetivo(Actual->estado);
             if (!objetivo){
                 Sucesores = expandir(Actual);
+                InsertarPrimero(&Cerradas, Actual, sizeof(tNodo));
                 Abiertos=Concatenar(Sucesores,Abiertos);
             }
         }
@@ -209,5 +216,5 @@ int EstadosRepetidos(LISTA Cerradas, tNodo *n){
         listaux = listaux->next;
     }
 
-    return repetido; //devuelve falso en caso de haber repeticion 
+    return repetido; 
 }
