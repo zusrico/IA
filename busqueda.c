@@ -203,6 +203,42 @@ int busquedaProfundidadControlEstados(){
     return objetivo;
 }
 
+int busquedaProfundidadLimitada(int lim){
+    int objetivo=0, visitados=0;
+    tNodo *Actual=(tNodo*) calloc(1,sizeof(tNodo));
+    tNodo *Inicial=nodoInicial();
+    LISTA Abiertos= VACIA;
+    LISTA Sucesores= VACIA;
+    LISTA Cerradas = VACIA;
+
+    InsertarPrimero(&Abiertos,(tNodo*) Inicial,sizeof(tNodo));
+
+    while (!esVacia(Abiertos) && !objetivo && Actual->profundidad != lim){
+        Actual=(tNodo*) calloc(1,sizeof(tNodo));
+        ExtraerPrimero(Abiertos,Actual, sizeof(tNodo));
+        visitados++;
+        EliminarPrimero(&Abiertos);
+        if(!EstadosRepetidos(Cerradas, Actual)){
+            objetivo=testObjetivo(Actual->estado);
+            if (!objetivo){
+                Sucesores = expandir(Actual);
+                InsertarPrimero(&Cerradas, Actual, sizeof(tNodo));
+                Abiertos=Concatenar(Sucesores,Abiertos);
+            }
+        }
+   }//while
+
+    printf("\nVisitados= %d\n", visitados);
+    if (objetivo)
+        dispSolucion(Actual);
+    free(Sucesores);
+    free(Inicial);
+    free(Actual);
+    return objetivo;
+}
+
+
+
 int EstadosRepetidos(LISTA Cerradas, tNodo *n){
     int repetido = 0;
     tNodo *n_aux;
