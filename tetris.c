@@ -127,37 +127,33 @@ int esValido(unsigned op, tEstado *estado)
 
 tEstado *aplicaOperador(unsigned op, tEstado *estado)
 {
-    int ficha;
     tEstado *nuevo= (tEstado *) malloc(sizeof(tEstado));
     memcpy(nuevo, estado,sizeof(tEstado));  
     switch (op)
     {
-    case ARRIBA:
-        ficha = nuevo->celdas[nuevo->fila[0]-1][nuevo->col[0]];
-        nuevo->fila[0]--;
-        nuevo->fila[ficha]++;
+    case ABAJO_A:
+        nuevo->celdas[nuevo->fila[11]+2][nuevo->col[11]] = 1;
+        nuevo->celdas[nuevo->fila[11]+1][nuevo->col[11]] = 11;
+        nuevo->celdas[nuevo->fila[11]][nuevo->col[11]] = 1;
+        nuevo->celdas[nuevo->fila[11]+1][nuevo->col[11]+1] = 1;
+        nuevo->celdas[nuevo->fila[11]+1][nuevo->col[11]-1] = 1;
+        nuevo->celdas[nuevo->fila[11]][nuevo->col[11]+1] = 0;
+        nuevo->celdas[nuevo->fila[11]][nuevo->col[11]-1] = 0;
+        nuevo->celdas[nuevo->fila[11]-1][nuevo->col[11]] = 0;
+        nuevo->fila[11]++;
         break;
-    case ABAJO:
-        ficha = nuevo->celdas[nuevo->fila[0]+1][nuevo->col[0]];
-        nuevo->fila[0]++;
-        nuevo->fila[ficha]--;
+    case ABAJO_B:
+        nuevo->fila[22]++;
         break;
-    case IZQUIERDA:
-        ficha = nuevo->celdas[nuevo->fila[0]][nuevo->col[0]-1];
-        nuevo->col[0]--;
-        nuevo->col[ficha]++;
+    case DERECHA_C:
+        nuevo->col[33]++;
         break;
-     case DERECHA:
-        ficha = nuevo->celdas[nuevo->fila[0]][nuevo->col[0]+1];
-        nuevo->col[0]++;
-        nuevo->col[ficha]--;
+     case ABAJO_C:
+        nuevo->fila[33]++;
         break;
     default:
         break;
     }
-
-    nuevo->celdas[nuevo->fila[0]][nuevo->col[0]] = 0;
-    nuevo->celdas[nuevo->fila[ficha]][nuevo->col[ficha]] = ficha;
 
 return nuevo;
 }
