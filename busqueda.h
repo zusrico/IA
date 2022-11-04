@@ -23,5 +23,7 @@ int busquedaAnchura(void);
 int busquedaAnchuraControlEstados(void);
 int busquedaProfundidad(void);
 int busquedaProfundidadControlEstados(void);
+int busquedaProfundidadLimitada(int);
+int busquedaProfundidadLimitadaIterativa(int);
 int EstadosRepetidos(LISTA, tNodo*);
 void solucionFin(int res);
